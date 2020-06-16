@@ -1,0 +1,10 @@
+Neos:
+  Flow:
+    http:
+      chain:
+        'process':
+          chain:
+            'graphqlUpload':
+              component: 't3n\GraphQL\Upload\Mvc\GraphQLUploadComponent'
+              position: 'before prepareActionRequest'
+

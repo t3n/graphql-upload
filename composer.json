@@ -1,0 +1,28 @@
+{
+    "description": "Extension for t3n/graphql that implements upload-handling",
+    "type": "neos-package",
+    "name": "t3n/graphql-upload",
+    "config": {
+        "bin-dir": "bin"
+    },
+    "require": {
+        "t3n/graphql": "^2.1",
+        "php": ">=7.2",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "t3n\\GraphQL\\Upload\\": "Classes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "t3n\\GraphQL\\Upload\\": "Classes/"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "t3n.GraphQL.Upload"
+        }
+    }
+}
