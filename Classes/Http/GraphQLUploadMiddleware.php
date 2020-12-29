@@ -2,27 +2,28 @@
 
 declare(strict_types=1);
 
-namespace t3n\GraphQL\Upload\Mvc;
+namespace t3n\GraphQL\Upload\Http;
 
-use Neos\Flow\Http\Component\ComponentContext;
-use Neos\Flow\Http\Component\ComponentInterface;
 use Neos\Flow\Http\Helper\UploadedFilesHelper;
-use Neos\Flow\Mvc\Routing\RoutingComponent;
 use Neos\Utility\Arrays;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class GraphQLUploadComponent implements ComponentInterface
+class GraphQLUploadMiddleware implements MiddlewareInterface
 {
-    public function handle(ComponentContext $componentContext): void
+    /**
+     * @param ServerRequestInterface $request
+     * @param RequestHandlerInterface $handler
+     * @return ResponseInterface
+     */
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($this->isGraphQLRequest($componentContext)) {
-            $httpRequest = $componentContext->getHttpRequest();
-
-            if (strpos($httpRequest->getHeader('Content-Type')[0], 'multipart/form-data') === 0) {
-                $httpRequest = $this->parseUploadedFiles($httpRequest);
-                $componentContext->replaceHttpRequest($httpRequest);
-            }
+        if ($this->isGraphQLRequest($request) && strpos($request->getHeader('Content-Type')[0], 'multipart/form-data') === 0) {
+            $request = $this->parseUploadedFiles($request);
         }
+        return $handler->handle($request);
     }
 
     protected function parseUploadedFiles(ServerRequestInterface $request): ServerRequestInterface
@@ -53,9 +54,9 @@ class GraphQLUploadComponent implements ComponentInterface
         return $request;
     }
 
-    protected function isGraphQLRequest(ComponentContext $componentContext): bool
+    protected function isGraphQLRequest(ServerRequestInterface $request): bool
     {
-        $routingMatchResults = $componentContext->getParameter(RoutingComponent::class, 'matchResults') ?? [];
+        $routingMatchResults = $request->getAttribute('matchResults') ?? [];
         $package = $routingMatchResults['@package'] ?? null;
         $controller = $routingMatchResults['@controller'] ?? null;
         $action = $routingMatchResults['@action'] ?? null;
