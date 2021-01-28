@@ -6,8 +6,9 @@
         "bin-dir": "bin"
     },
     "require": {
-        "t3n/graphql": "^2.1",
-        "php": ">=7.2",
+        "neos/flow": "^7.0",
+        "t3n/graphql": "^3.0",
+        "php": "^7.3",
         "ext-json": "*"
     },
     "autoload": {
