@@ -56,7 +56,7 @@ class GraphQLUploadMiddleware implements MiddlewareInterface
 
     protected function isGraphQLRequest(ServerRequestInterface $request): bool
     {
-        $routingMatchResults = $request->getAttribute('matchResults') ?? [];
+        $routingMatchResults = $request->getAttribute('routingResults') ?? [];
         $package = $routingMatchResults['@package'] ?? null;
         $controller = $routingMatchResults['@controller'] ?? null;
         $action = $routingMatchResults['@action'] ?? null;
