@@ -1,3 +1,5 @@
+> [!WARNING]
+> **This plugin is no longer being maintained and there is no superseding package at this time**
 
 # t3n.GraphQL.Upload
 
